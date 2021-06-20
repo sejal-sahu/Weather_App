@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/weatherData.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
@@ -7,10 +8,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Map data = {};
+  WeatherData data = new WeatherData("kota");
+  final _text = TextEditingController();
+  void getData() async {
+    print('kk');
+    await data.getTime();
+    print('jj');
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+    // print('kuch');
+  }
+
   @override
   Widget build(BuildContext context) {
-    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
+    // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       backgroundColor: Colors.blueGrey,
@@ -30,15 +46,15 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: <Widget>[
-                        Text(data['name'],
+                        Text(data.name,
                             style: new TextStyle(color: Colors.white)),
-                        Text(data['stat'],
+                        Text(data.stat,
                             style: new TextStyle(
                                 color: Colors.white, fontSize: 32.0)),
-                        Text(data['temp'],
+                        Text(data.temp.toString(),
                             style: new TextStyle(color: Colors.white)),
-                        Image.network(data['icon']),
-                        Text(data['time'],
+                        Image.network(data.icon),
+                        Text(data.time,
                             style: new TextStyle(color: Colors.white)),
                         // Text('18:30',
                         //     style: new TextStyle(color: Colors.white)),
@@ -54,13 +70,24 @@ class _HomeState extends State<Home> {
                   //     color: Colors.white,
                   //   ),
                   // ),
-                  Padding(padding: const EdgeInsets.all(8), child: TextField()),
+
+                  Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: TextField(
+                        controller: _text,
+                      )),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextButton(
                       child: new Text('Search'),
                       // tooltip: 'Refresh',
-                      onPressed: () => null,
+                      onPressed: () {
+                        setState(() {
+                          WeatherData new_data = new WeatherData(_text.text);
+                          new_data.getTime();
+                          data = new_data;
+                        });
+                      },
                       // color: Colors.white,
                     ),
                   ),
