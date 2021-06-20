@@ -14,10 +14,16 @@ class WeatherData {
 
   Future<void> getTime() async {
     // make a request
-    print('abc');
-    http.Response response = await http.get(Uri.https('api.openweathermap.org',
-        '/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
-    print('kyuuuu');
+    // print('abc');
+    // http.Response response = await http.get(Uri.https('api.openweathermap.org',
+    //     '/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
+    http.Response response = await http.get(Uri.parse(
+        'https://api.openweathermap.org/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
+    // http.Response response = await http.get(Uri.http(
+    //     'http://api.openweathermap.org',
+    //     '/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
+
+    // print('kyuuuu');
     print(response.body);
     Map data = jsonDecode(response.body);
 
