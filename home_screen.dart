@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/weatherData.dart';
+import 'weatherData.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
@@ -48,13 +48,13 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         Text(data.name,
                             style: new TextStyle(color: Colors.white)),
-                        Text(data.stat,
+                        Text('data.stat',
                             style: new TextStyle(
                                 color: Colors.white, fontSize: 32.0)),
-                        Text(data.temp.toString(),
+                        Text('data.temp.toString()',
                             style: new TextStyle(color: Colors.white)),
-                        Image.network(data.icon),
-                        Text(data.time,
+                        // Image.network(data.icon),
+                        Text('data.time',
                             style: new TextStyle(color: Colors.white)),
                         // Text('18:30',
                         //     style: new TextStyle(color: Colors.white)),
@@ -84,6 +84,7 @@ class _HomeState extends State<Home> {
                       onPressed: () {
                         setState(() {
                           WeatherData new_data = new WeatherData(_text.text);
+                          // data = new WeatherData(_text.text);
                           new_data.getTime();
                           data = new_data;
                         });
