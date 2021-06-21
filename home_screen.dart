@@ -1,6 +1,6 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import '../weatherData.dart';
+import 'weatherData.dart';
 import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
