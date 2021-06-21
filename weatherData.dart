@@ -10,7 +10,7 @@ class WeatherData {
   String time;
   // bool isDayTime;
 
-  WeatherData(this.name);
+  WeatherData({this.time, this.name, this.temp, this.stat, this.icon}); //this.name
 
   Future<void> getTime() async {
     // make a request
@@ -23,19 +23,36 @@ class WeatherData {
     //     'http://api.openweathermap.org',
     //     '/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
 
-    // print('kyuuuu');
+     print('kyuuuu');
     print(response.body);
     Map data = jsonDecode(response.body);
+     /*WeatherData({this.date, this.name, this.temp, this.main, this.icon});
+
+  factory WeatherData.fromJson(Map<String, dynamic> json) {
+    return WeatherData(
+      date: new DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: false),
+      name: json['name'],
+      temp: json['main']['temp'].toDouble(),
+      main: json['weather'][0]['main'],
+      icon: json['weather'][0]['icon'],
+    );
+  }
+  */
 
     time =
         new DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000, isUtc: false)
             .toString();
+             name= data['name'];
+    
     temp = data['main']['temp'].toDouble();
     stat = data['weather'][0]['main'];
     icon = data['weather'][0]['icon'];
     print(time);
+    print(name);
     print(temp);
     print(stat);
     print(icon);
+    
+  
   }
 }
