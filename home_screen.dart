@@ -8,21 +8,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  WeatherData data = new WeatherData("kota");
+  //static int j=0;
+//if(j==0)  
+WeatherData data = new WeatherData(name: 'kota');
   final _text = TextEditingController();
   void getData() async {
-    print('kk');
+    print('hello');
     await data.getTime();
     print('jj');
     setState(() {});
   }
 
-  @override
+  /*@override
   void initState() {
     super.initState();
-    getData();
+    getData(); 
+    {
+      
+  
+    setState(() {
+    
+    
+      WeatherData newdata = new WeatherData(_text.text);
+                              newdata.getTime();
+                              data = newdata;
+    });
+    }*/
+    
     // print('kuch');
-  }
+  //}
+  
 
   @override
   Widget build(BuildContext context) {
@@ -50,16 +65,16 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: <Widget>[
-                        Text(data.name,
+                        Text('${data.name.toString()}',
                             style: new TextStyle(color: Colors.white)),
-                        Text('data.stat',
+                        Text('${data.stat.toString()}',
                             style: new TextStyle(
                                 color: Colors.white, fontSize: 32.0)),
-                        Text('data.temp.toString()',
+                        Text('${data.temp.toString()}°C',
                             style: new TextStyle(color: Colors.white)),
-                        // Image.network(
-                        // 'https://openweathermap.org/img/w/${data.icon}.png'),
-                        Text('data.time',
+                         Image.network(
+                         'https://openweathermap.org/img/w/${data.icon}.png'),
+                        Text('${data.time.toString()}' ,
                             style: new TextStyle(color: Colors.white)),
                         // Text('18:30',
                         //     style: new TextStyle(color: Colors.white)),
@@ -111,12 +126,23 @@ class _HomeState extends State<Home> {
                         IconButton(
                           icon: new Icon(Icons.search),
                           onPressed: () {
+                           // WeatherData newdata = new WeatherData(name: _text.text);
+                              //data = newdata;
+    
+                            //   print("object");
+                            // newdata.getTime();
+                           
                             setState(() {
-                              WeatherData newdata = new WeatherData(_text.text);
-                              newdata.getTime();
-                              data = newdata;
+                              data.name= _text.text;
+                               //WeatherData newdata = new WeatherData(name: _text.text);
+                             
+                               //data = newdata;
+                              
+                              data.getTime();
+                              
+                             
                             });
-                          },
+                          }
                         ),
                         SizedBox(width: 10),
                         Expanded(
@@ -125,7 +151,7 @@ class _HomeState extends State<Home> {
                           decoration:
                               InputDecoration.collapsed(hintText: "Enter City"),
                           // onSubmitted: (String city) =>
-                          //     {model.refreshWeather(city, context)})),
+                          //     {model.refreshWeather(city, context)} //)),
                         ))
                       ],
                     ),
