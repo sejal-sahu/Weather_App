@@ -1,5 +1,7 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import '../weatherData.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
@@ -39,6 +41,12 @@ class _HomeState extends State<Home> {
     print(data.temp);
     print(data.stat);
     print(data.icon);
+     var time1 = DateTime.parse(data.time);
+   var timezone= DateFormat('yyyy-MM-dd kk:mm:ss').format(time1);
+print(timezone);
+var t1 = data.temp;
+   double temper = ( t1 -273.15);
+   var tempera = double.parse((temper).toStringAsFixed(2));
     // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     //return Image(image: AssetImage('graphics/background.png'));
     return Scaffold(
@@ -123,7 +131,7 @@ class _HomeState extends State<Home> {
                             style:
                                 TextStyle(color: Colors.white, fontSize: 30)),
 
-                        Text('${data.temp.toString()}°C',
+                        Text('${tempera.toString()}°C',
                             style: new TextStyle(
                                 color: Colors.white,
                                 fontSize: 64.0,
@@ -131,9 +139,9 @@ class _HomeState extends State<Home> {
                         Text('${data.stat.toString()}',
                             style: new TextStyle(
                                 color: Colors.white, fontSize: 40.0)),
-                        // Image.network(
-                        // 'https://openweathermap.org/img/w/${data.icon}.png'),
-                        Text('${data.time.toString()}',
+                        Image.network(
+                        'https://openweathermap.org/img/w/${data.icon}.png'),
+                        Text('${timezone.toString()}',
                             style: new TextStyle(color: Colors.white)),
                       ],
                     ),
