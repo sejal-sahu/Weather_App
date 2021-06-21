@@ -19,12 +19,10 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
- // @override
- // void initState() {
-  //  super.initState();
-  //  getData();
-    // print('kuch');
-  //}
+  void initState() {
+    //super.initState();
+    data.getTime();
+    getData(); }
 
   void handleClick(String value) {
     switch (value) {
