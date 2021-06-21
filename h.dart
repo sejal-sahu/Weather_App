@@ -1,6 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'weatherData.dart';
-
+import 'package:intl/intl.dart';
 class Home extends StatefulWidget {
   static const routeName = '/home';
   @override
@@ -45,6 +47,13 @@ WeatherData data = new WeatherData(name: 'kota');
     print(data.temp);
     print(data.stat);
     print(data.icon);
+    var time1 = DateTime.parse(data.time);
+   var timezone= DateFormat('yyyy-MM-dd kk:mm:ss').format(time1);
+print(timezone);
+var t1 = data.temp;
+   double temper = ( t1 -273.15);
+   var tempera = double.parse((temper).toStringAsFixed(2));
+
     // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -70,11 +79,12 @@ WeatherData data = new WeatherData(name: 'kota');
                         Text('${data.stat.toString()}',
                             style: new TextStyle(
                                 color: Colors.white, fontSize: 32.0)),
-                        Text('${data.temp.toString()}°C',
+                        Text('${tempera.toString()}°C',
                             style: new TextStyle(color: Colors.white)),
                          Image.network(
                          'https://openweathermap.org/img/w/${data.icon}.png'),
-                        Text('${data.time.toString()}' ,
+                        //new DateFormat.Hm().format(weather.date)
+                        Text('${timezone.toString()}',
                             style: new TextStyle(color: Colors.white)),
                         // Text('18:30',
                         //     style: new TextStyle(color: Colors.white)),
