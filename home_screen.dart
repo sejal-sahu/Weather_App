@@ -8,7 +8,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  WeatherData data = new WeatherData("kota");
+  WeatherData data = new WeatherData(name: "kota");
   final _text = TextEditingController();
   void getData() async {
     print('kk');
@@ -17,12 +17,12 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getData();
+ // @override
+ // void initState() {
+  //  super.initState();
+  //  getData();
     // print('kuch');
-  }
+  //}
 
   void handleClick(String value) {
     switch (value) {
@@ -90,10 +90,11 @@ class _HomeState extends State<Home> {
                     IconButton(
                       icon: new Icon(Icons.search),
                       onPressed: () {
-                        setState(() {
-                          WeatherData newdata = new WeatherData(_text.text);
-                          newdata.getTime();
-                          data = newdata;
+                         setState(() {
+                              data.name= _text.text;
+                               
+                              
+                              data.getTime();
                         });
                       },
                     ),
@@ -118,21 +119,21 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.all(14.0),
                     child: Column(
                       children: <Widget>[
-                        Text(data.name.toUpperCase(),
+                        Text('${data.name.toString()}',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 30)),
 
-                        Text('25 C',
+                        Text('${data.temp.toString()}°C',
                             style: new TextStyle(
                                 color: Colors.white,
                                 fontSize: 64.0,
                                 fontWeight: FontWeight.bold)),
-                        Text('Cloudy',
+                        Text('${data.stat.toString()}',
                             style: new TextStyle(
                                 color: Colors.white, fontSize: 40.0)),
                         // Image.network(
                         // 'https://openweathermap.org/img/w/${data.icon}.png'),
-                        Text('21-06-2021',
+                        Text('${data.time.toString()}',
                             style: new TextStyle(color: Colors.white)),
                       ],
                     ),
