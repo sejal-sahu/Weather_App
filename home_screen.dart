@@ -26,6 +26,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print(data.time);
+    print(data.temp);
+    print(data.stat);
+    print(data.icon);
     // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -53,7 +57,8 @@ class _HomeState extends State<Home> {
                                 color: Colors.white, fontSize: 32.0)),
                         Text('data.temp.toString()',
                             style: new TextStyle(color: Colors.white)),
-                        // Image.network(data.icon),
+                        // Image.network(
+                        // 'https://openweathermap.org/img/w/${data.icon}.png'),
                         Text('data.time',
                             style: new TextStyle(color: Colors.white)),
                         // Text('18:30',
@@ -71,27 +76,76 @@ class _HomeState extends State<Home> {
                   //   ),
                   // ),
 
-                  Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: TextField(
-                        controller: _text,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextButton(
-                      child: new Text('Search'),
-                      // tooltip: 'Refresh',
-                      onPressed: () {
-                        setState(() {
-                          WeatherData new_data = new WeatherData(_text.text);
-                          // data = new WeatherData(_text.text);
-                          new_data.getTime();
-                          data = new_data;
-                        });
-                      },
-                      // color: Colors.white,
+                  // Padding(
+                  //     padding: const EdgeInsets.all(8),
+                  //     child: TextField(
+                  //       controller: _text,
+                  //     )),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: 20, top: 20, right: 20, bottom: 50),
+                    padding:
+                        EdgeInsets.only(left: 5, top: 5, right: 20, bottom: 00),
+                    height: 50,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(3),
+                          topRight: Radius.circular(3),
+                          bottomLeft: Radius.circular(3),
+                          bottomRight: Radius.circular(3)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: new Icon(Icons.search),
+                          onPressed: () {
+                            setState(() {
+                              WeatherData newdata = new WeatherData(_text.text);
+                              newdata.getTime();
+                              data = newdata;
+                            });
+                          },
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                            child: TextField(
+                          controller: _text,
+                          decoration:
+                              InputDecoration.collapsed(hintText: "Enter City"),
+                          // onSubmitted: (String city) =>
+                          //     {model.refreshWeather(city, context)})),
+                        ))
+                      ],
                     ),
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: TextButton(
+                  //     child: new Text('Search'),
+                  //     // tooltip: 'Refresh',
+                  //     onPressed: () {
+                  // setState(() {
+                  //   WeatherData new_data = new WeatherData(_text.text);
+                  //   // data = new WeatherData(_text.text);
+                  //   new_data.getTime();
+                  //   data = new_data;
+                  // });
+                  //     },
+                  //     // color: Colors.white,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
