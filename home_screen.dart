@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'weatherData.dart';
+import './weatherData.dart';
 import 'package:intl/intl.dart';
+import './location.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
   @override
-  _HomeState createState() => _HomeState();
+  HomeState createState() => HomeState();
 }
 
-class _HomeState extends State<Home> {
+class HomeState extends State<Home> {
   WeatherData data = new WeatherData(name: "delhi");
   final _text = TextEditingController();
   void getData() async {
@@ -24,22 +25,14 @@ class _HomeState extends State<Home> {
     getData();
   }
 
-  void handleClick(String value) {
-    switch (value) {
-      case 'Logout':
-        break;
-      case 'Settings':
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(data.feel); print('why');
+    print(data.feel);
+    print('why');
     print(data.temp);
     print(data.stat);
     print(data.icon);
-     print(data.pressure);
+    print(data.pressure);
     print(data.humidity);
     print(data.speed);
 
@@ -51,29 +44,30 @@ class _HomeState extends State<Home> {
     var tempera = temper.toInt();
     //var tempera = double.parse((temper).toStringAsFixed(2));
     var feels;
-    
-double windfeels = data.feel - 273.15;
-feels = windfeels.toInt();
- //feels= double.parse((windfeels).toStringAsFixed(0));
- var pressUre = data.pressure.toInt();
 
+    double windfeels = data.feel - 273.15;
+    feels = windfeels.toInt();
+    //feels= double.parse((windfeels).toStringAsFixed(0));
+    var pressUre = data.pressure.toInt();
 
-  var sr = DateTime.fromMillisecondsSinceEpoch(data.rise * 1000);
-  var sunrise = DateFormat('HH:mm').format(sr);
-var ss = DateTime.fromMillisecondsSinceEpoch(data.set* 1000);
-var sunset = DateFormat('HH:mm').format(ss);
+    var sr = DateTime.fromMillisecondsSinceEpoch(data.rise * 1000);
+    var sunrise = DateFormat('HH:mm').format(sr);
+    var ss = DateTime.fromMillisecondsSinceEpoch(data.set * 1000);
+    var sunset = DateFormat('HH:mm').format(ss);
 
-
-print(sunrise);
-print('why same set');
-print(sunset);
-print('sunrise');
+    print(sunrise);
+    print('why same set');
+    print(sunset);
+    print('sunrise');
 
     final Map<String, AssetImage> images = {
       "Clouds": AssetImage("assets/images/cloudy.jpg"),
       "Clear": AssetImage("assets/images/clear.jpg"),
       "Haze": AssetImage("assets/images/haze.jpg"),
       "Mist": AssetImage("assets/images/mist.jpg"),
+      "Rain": AssetImage("assets/gifs/rain.gif"),
+      "Thunderstorm": AssetImage("assets/images/rain.jpg"),
+      "Snow": AssetImage("assets/images/snow.jpg"),
     };
     // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     //return Image(image: AssetImage('graphics/background.png'));
@@ -83,9 +77,15 @@ print('sunrise');
             title: Text('Weather app'),
             centerTitle: true,
             backgroundColor: Colors.blueGrey,
-            leading: Icon(
-              Icons.add_location_alt_outlined,
+            leading: FlatButton(
+              child: Icon(Icons.add_location_alt_outlined),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => locationp()));
+              },
             )),
+        //Icons.add_location_alt_outlined,
+
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -172,38 +172,136 @@ print('sunrise');
                         Text('${timezone.toString()}',
                             style: new TextStyle(color: Colors.white)),
                         Container(
-                          alignment: Alignment.bottomCenter ,
-                          child: Column(
-                          children: [
-                            Container(child: Row(children: [
-                               Column(children: [Text('Real Feel'), Text('${feels.toString()}°C')],),
-                               Column(children: [Text('Wind Speed'), Text('${data.speed.toString()} km/h')],)
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 8,
+                          ),
+                          alignment: Alignment.bottomCenter,
+
+                          //decoration: ,
+
+                          child: Card(
+                            semanticContainer: true,
+
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            padding: EdgeInsets.all(10),
+                            // alignment: Alignment.bottomCenter,
+                            //margin: EdgeInsets,
+                            elevation: 10,
+                            //width: double.infinity,
+                            color: Colors.transparent,
+
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text('Real Feel',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20)),
+                                          Text('${feels.toString()}°C',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20))
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text('Wind Speed',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20)),
+                                          Text('${data.speed.toString()} km/h',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20))
+                                        ],
+                                      )
+                                    ],
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                  ),
+                                  padding: EdgeInsets.all(10),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text('Pressure',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20)),
+                                          Text('${pressUre.toString()} mbar',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20))
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text('Humidity',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20)),
+                                          Text('${data.humidity.toString()}%',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20))
+                                        ],
+                                      ),
+                                    ],
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text('Sunrise',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20)),
+                                          Text('${sunrise.toString()}',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20))
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text('Sunset',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20)),
+                                          Text('${sunset.toString()}',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20))
+                                        ],
+                                      )
+                                    ],
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                  ),
+                                  padding: EdgeInsets.all(10),
+                                ),
+                              ],
                             ),
-                            Container(child: Row(children: [
-                              Column(children: [Text('Pressure'), Text('${pressUre.toString()} mbar')],),
-                              Column(children: [Text('Humidity'), Text('${data.humidity.toString()}%')],),
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            ),),
-                            Container(child: Row(children: [
-                               Column(children: [Text('Sunrise'), Text('${sunrise.toString()}')],),
-                               Column(children: [Text('Sunset'), Text('${sunset.toString()}')],)
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            
-                            ),
-                             padding: EdgeInsets.all(10),),
-
-                          ],
-
-
-
-                        ),)
+                          ),
+                        )
                       ],
                     ),
                   ),
