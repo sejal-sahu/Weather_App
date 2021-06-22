@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'weatherData.dart';
 import 'package:intl/intl.dart';
@@ -22,7 +21,8 @@ class _HomeState extends State<Home> {
   void initState() {
     //super.initState();
     data.getTime();
-    getData(); }
+    getData();
+  }
 
   void handleClick(String value) {
     switch (value) {
@@ -39,12 +39,18 @@ class _HomeState extends State<Home> {
     print(data.temp);
     print(data.stat);
     print(data.icon);
-     var time1 = DateTime.parse(data.time);
-   var timezone= DateFormat('yyyy-MM-dd kk:mm:ss').format(time1);
-print(timezone);
-var t1 = data.temp;
-   double temper = ( t1 -273.15);
-   var tempera = double.parse((temper).toStringAsFixed(2));
+    var time1 = DateTime.parse(data.time);
+    var timezone = DateFormat('yyyy-MM-dd kk:mm:ss').format(time1);
+    print(timezone);
+    var t1 = data.temp;
+    double temper = (t1 - 273.15);
+    var tempera = double.parse((temper).toStringAsFixed(2));
+    final Map<String, AssetImage> images = {
+      "Clouds": AssetImage("assets/images/cloudy.jpg"),
+      "Clear": AssetImage("assets/images/clear.jpg"),
+      "Haze": AssetImage("assets/images/haze.jpg"),
+      "Mist": AssetImage("assets/images/mist.jpg"),
+    };
     // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     //return Image(image: AssetImage('graphics/background.png'));
     return Scaffold(
@@ -59,7 +65,9 @@ var t1 = data.temp;
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/cloudy.jpg'),
+              image: (data.stat.toString()) == null
+                  ? images["Clear"]
+                  : images[data.stat.toString()],
               fit: BoxFit.cover,
             ),
           ),
@@ -96,11 +104,10 @@ var t1 = data.temp;
                     IconButton(
                       icon: new Icon(Icons.search),
                       onPressed: () {
-                         setState(() {
-                              data.name= _text.text;
-                               
-                              
-                              data.getTime();
+                        setState(() {
+                          data.name = _text.text;
+
+                          data.getTime();
                         });
                       },
                     ),
@@ -128,7 +135,6 @@ var t1 = data.temp;
                         Text('${data.name.toString()}',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 30)),
-
                         Text('${tempera.toString()}°C',
                             style: new TextStyle(
                                 color: Colors.white,
@@ -138,7 +144,7 @@ var t1 = data.temp;
                             style: new TextStyle(
                                 color: Colors.white, fontSize: 40.0)),
                         Image.network(
-                        'https://openweathermap.org/img/w/${data.icon}.png'),
+                            'https://openweathermap.org/img/w/${data.icon}.png'),
                         Text('${timezone.toString()}',
                             style: new TextStyle(color: Colors.white)),
                       ],
