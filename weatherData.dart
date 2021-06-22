@@ -8,6 +8,15 @@ class WeatherData {
   String icon;
   double temp;
   String time;
+
+  double feel;
+  double speed;
+  double pressure; //mbar
+  int humidity;
+  int rise;
+  int set;
+
+
   // bool isDayTime;
 
   WeatherData({this.time, this.name, this.temp, this.stat, this.icon}); //this.name
@@ -47,12 +56,24 @@ class WeatherData {
     temp = data['main']['temp'].toDouble();
     stat = data['weather'][0]['main'];
     icon = data['weather'][0]['icon'];
-    print(time);
+
+    feel = data['main']['feels_like'].toDouble();
+    speed = data['wind']['speed'];
+    pressure = data['main']['pressure'].toDouble() ;
+    humidity = data['main']['humidity'].toInt() ;
+    rise = data['sys']['sunrise'];
+    set = data['sys']['sunset'];
+    print(feel);
     print(name);
     print(temp);
     print(stat);
+    print('huehuehue');
+     print(rise);
+     print(set);
     print(icon);
-    
+     print(pressure);
+    print(humidity);
+    print(speed);
   
   }
 }
