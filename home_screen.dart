@@ -71,7 +71,12 @@ class HomeState extends State<Home> {
     };
     // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     //return Image(image: AssetImage('graphics/background.png'));
-    return Scaffold(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+        print('G');
+      },
+      child: Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
             title: Text('Weather app'),
@@ -86,7 +91,7 @@ class HomeState extends State<Home> {
             )),
         //Icons.add_location_alt_outlined,
 
-        body: Container(
+        body: SingleChildScrollView(child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: (data.stat.toString()) == null
@@ -132,7 +137,9 @@ class HomeState extends State<Home> {
                           data.name = _text.text;
 
                           data.getTime();
-                        });
+                          
+        FocusScope.of(context).requestFocus(FocusNode());
+                  });
                       },
                     ),
                     SizedBox(width: 10),
