@@ -324,17 +324,13 @@ class HomeState extends State<Home> {
                                       ),
                                       padding: EdgeInsets.all(10),
                                     ),
-                                    SizedBox(
+//////YAHAAAAAAA SEEEEEEEEEE///////////////////
+                            SizedBox(
                                height: 200.0,
                                width: 800,
                                    child: ListView(
-                              //  physics: ClampingScrollPhysics(),
-                                // shrinkWrap: true,
-                                 scrollDirection: Axis.horizontal,
-                                 //itemCount: 25,
-                                  // itemBuilder: (BuildContext context, int index) => Card(
-                              
-                                             children: [Center(child: Row(children: [  
+                                    scrollDirection: Axis.horizontal,
+                                      children: [Center(child: Row(children: [  
                                               SizedBox(
                                                height: 200,
                                                width: 100,
@@ -397,62 +393,9 @@ class HomeState extends State<Home> {
                                              ),  
                                              ],)),
                                               ] ),
-        ),
+                                ),
       
-                                      /*ListView(
-                                        scrollDirection: Axis.horizontal,
-                                        children: [
-                                          Container(child: Column(
-                                            children: [
-                                              Text("date"),
-                                              Text("temp"),
-                                              Text("icon"),
-                                              Text("stat"),
-                                            ],
-                                          ),),
-                                          /* 
-
- body: SingleChildScrollView(
-  child: Column(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      Text(
-        'Headline',
-        style: TextStyle(fontSize: 18),
-      ),
-      
-      Text(
-        'Demo Headline 2',
-        style: TextStyle(fontSize: 18),
-      ),
-      Card(
-        child: ListTile(title: Text('Motivation $int'), subtitle: Text('this is a description of the motivation')),
-      ),
-      Card(
-        child: ListTile(title: Text('Motivation $int'), subtitle: Text('this is a description of the motivation')),
-      ),
-      Card(
-        child: ListTile(title: Text('Motivation $int'), subtitle: Text('this is a description of the motivation')),
-      ),
-      Card(
-        child: ListTile(title: Text('Motivation $int'), subtitle: Text('this is a description of the motivation')),
-      ),
-      Card(
-        child: ListTile(title: Text('Motivation $int'), subtitle: Text('this is a description of the motivation')),
-      ),
-    ],
-  ),
-),*/
-
-
-
-
-                                          //Container(child: Column(),),
-                                          //Container(child: Column(),),
-                                          //Container(child: Column(),),
-                                          //Container(child: Column(),),
-                                        ],
-                                      )*/
+                                      
                                     ],
                                 ),
                               ),
