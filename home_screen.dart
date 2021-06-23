@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'weatherData.dart';
 import 'package:intl/intl.dart';
 import 'location.dart';
-import 'Forecast.dart';
+import 'forecast.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
@@ -10,10 +10,12 @@ class Home extends StatefulWidget {
   HomeState createState() => HomeState();
 }
 
+//String value;
+
 class HomeState extends State<Home> {
-  WeatherData data = new WeatherData(name: "delhi");
-  FData d=new FData(name: "delhi");
-  final _text = TextEditingController();
+  WeatherData data = new WeatherData(name: "Delhi");
+  FData d = new FData(name: "Delhi");
+  //final _text = TextEditingController();
   void getData() async {
     print('kk');
     await data.getTime();
@@ -26,7 +28,10 @@ class HomeState extends State<Home> {
     //super.initState();
     data.getTime();
     getData();
-    
+  }
+
+  void callback(Widget nextPage) {
+    setState(() {});
   }
 
   @override
@@ -46,18 +51,18 @@ class HomeState extends State<Home> {
     var t1 = data.temp;
     double temper = (t1 - 273.15);
     var tempera = temper.toInt();
-    
-    int tempConvert(double t){
+
+    int tempConvert(double t) {
       double tempe = (t - 273.15);
-    var temper= tempe.toInt(); 
-    return temper;
-    }
-    String DateConvert(String date){
-      var tim = DateTime.parse(date);
-    var timezone = DateFormat('dd-MM-yyyy').format(tim);
-    return timezone;
+      var temper = tempe.toInt();
+      return temper;
     }
 
+    String DateConvert(String date) {
+      var tim = DateTime.parse(date);
+      var timezone = DateFormat('dd-MM-yyyy').format(tim);
+      return timezone;
+    }
 
     //var tempera = double.parse((temper).toStringAsFixed(2));
     var feels;
@@ -82,45 +87,48 @@ class HomeState extends State<Home> {
       "Clear": AssetImage("assets/images/clear.jpg"),
       "Haze": AssetImage("assets/images/haze.jpg"),
       "Mist": AssetImage("assets/images/mist.jpg"),
-      //"Rain": AssetImage("assets/gifs/rain.gif"),
-     // "Thunderstorm": AssetImage("assets/images/rain.jpg"),
-      //"Snow": AssetImage("assets/images/snow.jpg"),
+      "Rain": AssetImage("assets/gifs/rain.gif"),
+      "Thunderstorm": AssetImage("assets/images/rain.jpg"),
+      "Snow": AssetImage("assets/images/snow.jpg"),
     };
     // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     //return Image(image: AssetImage('graphics/background.png'));
-    return GestureDetector(
+    return /*GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
         print('G');
-      },
-      child: Scaffold(
-        backgroundColor: Colors.blueGrey,
-        appBar: AppBar(
-            title: Text('Weather app'),
-            centerTitle: true,
+      },*/
+        Scaffold(
             backgroundColor: Colors.blueGrey,
-            leading: FlatButton(
-              child: Icon(Icons.add_location_alt_outlined),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => locationp()));
-              },
-            )),
-        //Icons.add_location_alt_outlined,
-
-        body: SingleChildScrollView(child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: (data.stat.toString()) == null
-                  ? images["Clear"]
-                  : images[data.stat.toString()],
-              fit: BoxFit.cover,
+            appBar: AppBar(
+              title: Text('Weather app'),
+              centerTitle: true,
+              backgroundColor: Colors.blueGrey,
+              leading: FlatButton(
+                child: Icon(Icons.add_location_alt_outlined),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => location()));
+                },
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Container(
+            //Icons.add_location_alt_outlined,
+
+            /*body: SingleChildScrollView(
+          child:*/
+            body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: (data.stat.toString()) == null
+                      ? images["Clear"]
+                      : images[data.stat.toString()],
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  /*Container(
                 margin:
                     EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 50),
                 padding:
@@ -154,9 +162,9 @@ class HomeState extends State<Home> {
                           data.name = _text.text;
 
                           data.getTime();
-                          
-        FocusScope.of(context).requestFocus(FocusNode());
-                  });
+
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        });
                       },
                     ),
                     SizedBox(width: 10),
@@ -172,243 +180,288 @@ class HomeState extends State<Home> {
                     ))
                   ],
                 ),
-              ),
-              SingleChildScrollView(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Column(
-                          children: <Widget>[
-                            Text('${data.name.toString()}',
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 30)),
-                            Text('${tempera.toString()}°C',
-                                style: new TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 64.0,
-                                    fontWeight: FontWeight.bold)),
-                            Text('${data.stat.toString()}',
-                                style: new TextStyle(
-                                    color: Colors.white, fontSize: 40.0)),
-                            Image.network(
-                                'https://openweathermap.org/img/w/${data.icon}.png'),
-                            Text('${timezone.toString()}',
-                                style: new TextStyle(color: Colors.white)),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 8,
-                              ),
-                              alignment: Alignment.bottomCenter,
-
-                              //decoration: ,
-
-                              child: Card(
-                                semanticContainer: true,
-
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
+              ),*/
+                  /* SingleChildScrollView(
+                    child:*/
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: Column(
+                            children: <Widget>[
+                              Text('${data.name.toString()}',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 30)),
+                              Text('${tempera.toString()}°C',
+                                  style: new TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 64.0,
+                                      fontWeight: FontWeight.bold)),
+                              Text('${data.stat.toString()}',
+                                  style: new TextStyle(
+                                      color: Colors.white, fontSize: 40.0)),
+                              Image.network(
+                                  'https://openweathermap.org/img/w/${data.icon}.png'),
+                              Text('${timezone.toString()}',
+                                  style: new TextStyle(color: Colors.white)),
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 8,
                                 ),
-                                // alignment: Alignment.bottomCenter,
-                                //margin: EdgeInsets,
-                                elevation: 10,
-                                //width: double.infinity,
-                                color: Colors.transparent,
+                                alignment: Alignment.bottomCenter,
 
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text('Real Feel',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 20)),
-                                              Text('${feels.toString()}°C',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20))
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text('Wind Speed',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 20)),
-                                              Text('${data.speed.toString()} km/h',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20))
-                                            ],
-                                          )
-                                        ],
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                //decoration: ,
+
+                                child: Card(
+                                  semanticContainer: true,
+
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  // alignment: Alignment.bottomCenter,
+                                  //margin: EdgeInsets,
+                                  elevation: 10,
+                                  //width: double.infinity,
+                                  color: Colors.transparent,
+
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Row(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Text('Real Feel',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20)),
+                                                Text('${feels.toString()}°C',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20))
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Text('Wind Speed',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20)),
+                                                Text(
+                                                    '${data.speed.toString()} km/h',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20))
+                                              ],
+                                            )
+                                          ],
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                        ),
+                                        padding: EdgeInsets.all(10),
                                       ),
-                                      padding: EdgeInsets.all(10),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Text('Pressure',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 20)),
-                                              Text('${pressUre.toString()} mbar',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20))
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Text('Humidity',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 20)),
-                                              Text('${data.humidity.toString()}%',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20))
-                                            ],
-                                          ),
-                                        ],
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text('Pressure',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20)),
+                                                Text(
+                                                    '${pressUre.toString()} mbar',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20))
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text('Humidity',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20)),
+                                                Text(
+                                                    '${data.humidity.toString()}%',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20))
+                                              ],
+                                            ),
+                                          ],
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Text('Sunrise',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 20)),
-                                              Text('${sunrise.toString()}',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20))
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Text('Sunset',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 20)),
-                                              Text('${sunset.toString()}',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20))
-                                            ],
-                                          )
-                                        ],
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text('Sunrise',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20)),
+                                                Text('${sunrise.toString()}',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20))
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text('Sunset',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20)),
+                                                Text('${sunset.toString()}',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20))
+                                              ],
+                                            )
+                                          ],
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                        ),
+                                        padding: EdgeInsets.all(10),
                                       ),
-                                      padding: EdgeInsets.all(10),
-                                    ),
 //////YAHAAAAAAA SEEEEEEEEEE///////////////////
-                            SizedBox(
-                               height: 200.0,
-                               width: 800,
-                                   child: ListView(
-                                    scrollDirection: Axis.horizontal,
-                                      children: [Center(child: Row(children: [  
-                                              SizedBox(
-                                               height: 200,
-                                               width: 100,
-                                               child: Column(
+                                      SizedBox(
+                                        height: 200.0,
+                                        width: 800,
+                                        child: ListView(
+                                            scrollDirection: Axis.horizontal,
                                             children: [
-                                                Text('${DateConvert(d.date1)}'),
-                                                Text('${tempConvert(d.temp1).toString()}°C'),
-                                               Image.network( 'https://openweathermap.org/img/w/${d.icon1}.png'),
-                                                Text('${d.stat1.toString()}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                                            ],
-                                          ),
-                                             ),  
-                                             SizedBox(
-                                               height: 200,
-                                               width: 100,
-                                               child: Column(
-                                            children: [
-                                                Text('${DateConvert(d.date2)}'),
-                                                Text('${tempConvert(d.temp2).toString()}°C'),
-                                               Image.network( 'https://openweathermap.org/img/w/${d.icon2}.png'),
-                                                Text('${d.stat2.toString()}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                                            ],
-                                          ),
-                                             ),  
-                                             SizedBox(
-                                               height: 200,
-                                               width: 100,
-                                               child: Column(
-                                            children: [
-                                                Text('${DateConvert(d.date3)}'),
-                                                Text('${tempConvert(d.temp3).toString()}°C'),
-                                               Image.network( 'https://openweathermap.org/img/w/${d.icon3}.png'),
-                                                Text('${d.stat3.toString()}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                                            ],
-                                          ),
-                                             ),  
-                                             SizedBox(
-                                               height: 200,
-                                               width: 100,
-                                               child: Column(
-                                            children: [
-                                                Text('${DateConvert(d.date4)}'),
-                                                Text('${tempConvert(d.temp4).toString()}°C'),
-                                               Image.network( 'https://openweathermap.org/img/w/${d.icon4}.png'),
-                                                Text('${d.stat4.toString()}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                                            ],
-                                          ),
-                                             ),  
-                                             SizedBox(
-                                               height: 200,
-                                               width: 100,
-                                               child: Column(
-                                            children: [
-                                                Text('${DateConvert(d.date5)}'),
-                                                Text('${tempConvert(d.temp5).toString()}°C'),
-                                               Image.network( 'https://openweathermap.org/img/w/${d.icon5}.png'),
-                                                Text('${d.stat5.toString()}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                                            ],
-                                          ),
-                                             ),  
-                                             ],)),
-                                              ] ),
-                                ),
-      
-                                      
+                                              Center(
+                                                  child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 200,
+                                                    width: 100,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            '${DateConvert(d.date1)}'),
+                                                        Text(
+                                                            '${tempConvert(d.temp1).toString()}°C'),
+                                                        Image.network(
+                                                            'https://openweathermap.org/img/w/${d.icon1}.png'),
+                                                        Text(
+                                                            '${d.stat1.toString()}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 200,
+                                                    width: 100,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            '${DateConvert(d.date2)}'),
+                                                        Text(
+                                                            '${tempConvert(d.temp2).toString()}°C'),
+                                                        Image.network(
+                                                            'https://openweathermap.org/img/w/${d.icon2}.png'),
+                                                        Text(
+                                                            '${d.stat2.toString()}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 200,
+                                                    width: 100,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            '${DateConvert(d.date3)}'),
+                                                        Text(
+                                                            '${tempConvert(d.temp3).toString()}°C'),
+                                                        Image.network(
+                                                            'https://openweathermap.org/img/w/${d.icon3}.png'),
+                                                        Text(
+                                                            '${d.stat3.toString()}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 200,
+                                                    width: 100,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            '${DateConvert(d.date4)}'),
+                                                        Text(
+                                                            '${tempConvert(d.temp4).toString()}°C'),
+                                                        Image.network(
+                                                            'https://openweathermap.org/img/w/${d.icon4}.png'),
+                                                        Text(
+                                                            '${d.stat4.toString()}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 200,
+                                                    width: 100,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            '${DateConvert(d.date5)}'),
+                                                        Text(
+                                                            '${tempConvert(d.temp5).toString()}°C'),
+                                                        Image.network(
+                                                            'https://openweathermap.org/img/w/${d.icon5}.png'),
+                                                        Text(
+                                                            '${d.stat5.toString()}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                            ]),
+                                      ),
                                     ],
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        )),),);
+            ));
   }
 }
