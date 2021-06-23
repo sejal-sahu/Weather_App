@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'weatherData.dart';
 import 'package:intl/intl.dart';
-import 'location.dart';
 import 'forecast.dart';
 
 class Home extends StatefulWidget {
@@ -10,12 +9,10 @@ class Home extends StatefulWidget {
   HomeState createState() => HomeState();
 }
 
-//String value;
-
 class HomeState extends State<Home> {
   WeatherData data = new WeatherData(name: "Delhi");
   FData d = new FData(name: "Delhi");
-  //final _text = TextEditingController();
+  final _text = TextEditingController();
   void getData() async {
     print('kk');
     await data.getTime();
@@ -28,10 +25,6 @@ class HomeState extends State<Home> {
     //super.initState();
     data.getTime();
     getData();
-  }
-
-  void callback(Widget nextPage) {
-    setState(() {});
   }
 
   @override
@@ -91,99 +84,88 @@ class HomeState extends State<Home> {
       "Thunderstorm": AssetImage("assets/images/rain.jpg"),
       "Snow": AssetImage("assets/images/snow.jpg"),
     };
-    // data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
-    //return Image(image: AssetImage('graphics/background.png'));
-    return /*GestureDetector(
+
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
         print('G');
-      },*/
-        Scaffold(
-            backgroundColor: Colors.blueGrey,
-            appBar: AppBar(
-              title: Text('Weather app'),
-              centerTitle: true,
-              backgroundColor: Colors.blueGrey,
-              leading: FlatButton(
-                child: Icon(Icons.add_location_alt_outlined),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => location()));
-                },
+      },
+      child: Scaffold(
+        backgroundColor: Colors.blueGrey,
+        appBar: AppBar(
+          title: Text('Weather app'),
+          centerTitle: true,
+          backgroundColor: Colors.blueGrey,
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            //BACKGROUND IMAGE
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: (data.stat.toString()) == null
+                    ? images["Clear"]
+                    : images[data.stat.toString()],
+                fit: BoxFit.cover,
               ),
             ),
-            //Icons.add_location_alt_outlined,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Container(
+                  margin:
+                      EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 50),
+                  padding:
+                      EdgeInsets.only(left: 5, top: 5, right: 20, bottom: 00),
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(3),
+                        topRight: Radius.circular(3),
+                        bottomLeft: Radius.circular(3),
+                        bottomRight: Radius.circular(3)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 3,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        icon: new Icon(Icons.search),
+                        onPressed: () {
+                          setState(() {
+                            data.name = _text.text;
 
-            /*body: SingleChildScrollView(
-          child:*/
-            body: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: (data.stat.toString()) == null
-                      ? images["Clear"]
-                      : images[data.stat.toString()],
-                  fit: BoxFit.cover,
+                            data.getTime();
+
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          });
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                          child: TextField(
+                        controller: _text,
+
+                        decoration:
+                            InputDecoration.collapsed(hintText: "Enter City"),
+
+                        // onSubmitted: (String city) =>
+                        //     {model.refreshWeather(city, context)})),
+                      ))
+                    ],
+                  ),
                 ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  /*Container(
-                margin:
-                    EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 50),
-                padding:
-                    EdgeInsets.only(left: 5, top: 5, right: 20, bottom: 00),
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(3),
-                      topRight: Radius.circular(3),
-                      bottomLeft: Radius.circular(3),
-                      bottomRight: Radius.circular(3)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      icon: new Icon(Icons.search),
-                      onPressed: () {
-                        setState(() {
-                          data.name = _text.text;
-
-                          data.getTime();
-
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        });
-                      },
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                        child: TextField(
-                      controller: _text,
-
-                      decoration:
-                          InputDecoration.collapsed(hintText: "Enter City"),
-
-                      // onSubmitted: (String city) =>
-                      //     {model.refreshWeather(city, context)})),
-                    ))
-                  ],
-                ),
-              ),*/
-                  /* SingleChildScrollView(
-                    child:*/
-                  Container(
+                SingleChildScrollView(
+                  child: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -191,7 +173,7 @@ class HomeState extends State<Home> {
                           padding: const EdgeInsets.all(14.0),
                           child: Column(
                             children: <Widget>[
-                              Text('${data.name.toString()}',
+                              Text('${data.name.toString().toUpperCase()}',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 30)),
                               Text('${tempera.toString()}°C',
@@ -212,21 +194,13 @@ class HomeState extends State<Home> {
                                   vertical: 8,
                                 ),
                                 alignment: Alignment.bottomCenter,
-
-                                //decoration: ,
-
                                 child: Card(
                                   semanticContainer: true,
-
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  // alignment: Alignment.bottomCenter,
-                                  //margin: EdgeInsets,
                                   elevation: 10,
-                                  //width: double.infinity,
                                   color: Colors.transparent,
-
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -336,7 +310,6 @@ class HomeState extends State<Home> {
                                         ),
                                         padding: EdgeInsets.all(10),
                                       ),
-//////YAHAAAAAAA SEEEEEEEEEE///////////////////
                                       SizedBox(
                                         height: 200.0,
                                         width: 800,
@@ -352,9 +325,15 @@ class HomeState extends State<Home> {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                            '${DateConvert(d.date1)}'),
+                                                            '${DateConvert(d.date1)}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Text(
-                                                            '${tempConvert(d.temp1).toString()}°C'),
+                                                            '${tempConvert(d.temp1).toString()}°C',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Image.network(
                                                             'https://openweathermap.org/img/w/${d.icon1}.png'),
                                                         Text(
@@ -372,9 +351,15 @@ class HomeState extends State<Home> {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                            '${DateConvert(d.date2)}'),
+                                                            '${DateConvert(d.date2)}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Text(
-                                                            '${tempConvert(d.temp2).toString()}°C'),
+                                                            '${tempConvert(d.temp2).toString()}°C',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Image.network(
                                                             'https://openweathermap.org/img/w/${d.icon2}.png'),
                                                         Text(
@@ -392,9 +377,15 @@ class HomeState extends State<Home> {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                            '${DateConvert(d.date3)}'),
+                                                            '${DateConvert(d.date3)}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Text(
-                                                            '${tempConvert(d.temp3).toString()}°C'),
+                                                            '${tempConvert(d.temp3).toString()}°C',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Image.network(
                                                             'https://openweathermap.org/img/w/${d.icon3}.png'),
                                                         Text(
@@ -412,9 +403,15 @@ class HomeState extends State<Home> {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                            '${DateConvert(d.date4)}'),
+                                                            '${DateConvert(d.date4)}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Text(
-                                                            '${tempConvert(d.temp4).toString()}°C'),
+                                                            '${tempConvert(d.temp4).toString()}°C',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Image.network(
                                                             'https://openweathermap.org/img/w/${d.icon4}.png'),
                                                         Text(
@@ -432,9 +429,15 @@ class HomeState extends State<Home> {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                            '${DateConvert(d.date5)}'),
+                                                            '${DateConvert(d.date5)}',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Text(
-                                                            '${tempConvert(d.temp5).toString()}°C'),
+                                                            '${tempConvert(d.temp5).toString()}°C',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white)),
                                                         Image.network(
                                                             'https://openweathermap.org/img/w/${d.icon5}.png'),
                                                         Text(
@@ -460,8 +463,12 @@ class HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                ],
-              ),
-            ));
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
