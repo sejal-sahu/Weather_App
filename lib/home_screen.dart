@@ -76,7 +76,7 @@ class HomeState extends State<Home> {
     print('sunrise');
 
     final Map<String, AssetImage> images = {
-      "Clouds": AssetImage("assets/gifs/clouds.gif"),
+      "Clouds": AssetImage("assets/images/clouds.jpg"),
       "Clear": AssetImage("assets/images/clear.jpg"),
       "Haze": AssetImage("assets/images/haze.jpg"),
       "Mist": AssetImage("assets/images/mist.jpg"),
@@ -86,29 +86,15 @@ class HomeState extends State<Home> {
       "Drizzle": AssetImage("assets/gifs/drizzle.gif"),
     };
     final Map<String, AssetImage> night = {
-      "Clouds": AssetImage("assets/night/clouds.gif"),
-      "Clear": AssetImage("assets/images/clear.jpg"),
-      "Haze": AssetImage("assets/images/haze.jpg"),
-      "Mist": AssetImage("assets/images/mist.jpg"),
+      "Clouds": AssetImage("assets/night/clouds.jpg"),
+      "Clear": AssetImage("assets/night/clear.jpg"),
+      "Haze": AssetImage("assets/night/haze.jpg"),
+      "Mist": AssetImage("assets/night/haze.jpg"),
       "Rain": AssetImage("assets/gifs/rain.gif"),
       "Thunderstorm": AssetImage("assets/gifs/thunderstorm.gif"),
       "Snow": AssetImage("assets/gifs/snow.gif"),
       "Drizzle": AssetImage("assets/gifs/drizzle.gif"),
     };
-    final Map<String, String> tip = {
-      'Clouds': '    What does a cloud wear under his rain coat? Thunderwear',
-      'Clear': 'Hottest day of the week is Sunday',
-      'Haze': 'I must say,this is a pretty bad joke, but it haze potential.',
-      'Mist': 'I tried to catch some fog, but I mist.',
-      'Rain': '    What goes up when the rain comes down? An umbrella ',
-      'Thunderstorm':
-          'You need to try meditating during a storm.It\'s a really in-lightening experience',
-      'Snow': '   What do you get if you cross a shark with ice? Frostbite',
-      'Drizzle':
-          'What do you call a grizzly bear caught in the rain? A drizzly bear!',
-      'Hailstorm': 'What\'s a king\'s favourite weather? Hail!',
-    };
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -212,18 +198,6 @@ class HomeState extends State<Home> {
                                   style: new TextStyle(
                                       color: Colors.white, fontSize: 30.0)),
                               SizedBox(width: 30),
-                              Text(
-                                tip[data.stat],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                '',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              ),
                               Image.network(
                                   'https://openweathermap.org/img/w/${data.icon}.png'),
                               Text('${timezone.toString()}',
@@ -556,3 +530,4 @@ class HomeState extends State<Home> {
     );
   }
 }
+
