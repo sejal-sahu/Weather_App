@@ -49,7 +49,7 @@ flutter:
   assets:
     - assets/images/
     - assets/gifs/
-      
+    - assets/night/ 
       
   # To add assets to your application, add an assets section, like this:
   # assets:
