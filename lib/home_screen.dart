@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'forecast.dart';
 
 class Home extends StatefulWidget {
-  static const routeName = '/home';
   @override
   HomeState createState() => HomeState();
 }
@@ -39,7 +38,7 @@ class HomeState extends State<Home> {
     print(data.speed);
 
     var time1 = DateTime.parse(data.time);
-    var timezone = DateFormat('EEE dd-MM-yyyy HH:mm:ss').format(time1);
+    var timezone = DateFormat('EEE dd MMMM \n    HH:mm:ss').format(time1);
     print(timezone);
     var t1 = data.temp;
     double temper = (t1 - 273.15);
@@ -53,7 +52,7 @@ class HomeState extends State<Home> {
 
     String DateConvert(String date) {
       var tim = DateTime.parse(date);
-      var timezone = DateFormat('dd-MM-yyyy').format(tim);
+      var timezone = DateFormat('dd MMMM').format(tim);
       return timezone;
     }
 
@@ -125,7 +124,7 @@ class HomeState extends State<Home> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(left: 2, top: 2, right: 2, bottom: 2),
+                  margin: EdgeInsets.only(left: 10, top: 2, right: 10, bottom: 2),
                   padding:
                       EdgeInsets.only(left: 1, top: 1, right: 1, bottom: 1),
                   height: 50,
