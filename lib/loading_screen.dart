@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:weather/home_screen.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -11,19 +8,11 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   @override
-  void initState() {
-    super.initState();
-    Timer(
-        Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home())));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
-      body: Container(
+      body: Center(
+        //TODO: Implement Loading Widget of Choice DONE
         child: SpinKitFadingCube(
           color: Colors.white,
           size: 80,
@@ -32,3 +21,4 @@ class _LoadingState extends State<Loading> {
     );
   }
 }
+
