@@ -69,7 +69,33 @@ class HomeState extends State<Home> {
   }
 
   void getDataa() async {
-    await weatherData.getData();
+    await weatherData.getData().catchError((e){{ setState(() {
+          showDialog(context: context, builder:  (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Location not found"),
+          content: new Text("Please enter a valid city name."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                 weatherData = new WeatherData(name: "Delhi");
+  d = new FData(name: "Delhi");
+                getDataa();
+               // initState();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },);
+        });}
+     // print('error');
+    }) ;
+    
+    if(weatherData.cod == 404) {}
+   // else{
     await d.getDataf();
 
     var time = DateTime.parse(weatherData.time);
@@ -90,7 +116,7 @@ class HomeState extends State<Home> {
 
     setState(() {
       _loading = false;
-    });
+    });//}
   }
 
   void initState() {
