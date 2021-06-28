@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+
 import 'dart:convert';
 
 class WeatherData {
@@ -11,45 +11,25 @@ class WeatherData {
 
   double feel;
   double speed;
-  double pressure; //mbar
+  double pressure; //mBar
   int humidity;
   int rise;
   int set;
 
-  // bool isDayTime;
+  WeatherData({this.time, this.name, this.temp, this.stat, this.icon}); //this.name
 
-  WeatherData(
-      {this.time, this.name, this.temp, this.stat, this.icon}); //this.name
-
-  Future<void> getTime() async {
+  Future<void> getData() async {
     // make a request
-    // print('abc');
-    // http.Response response = await http.get(Uri.https('api.openweathermap.org',
-    //     '/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
-    http.Response response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
-    // http.Response response = await http.get(Uri.http(
-    //     'http://api.openweathermap.org',
-    //     '/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
-
-    print('kyuuuu');
+    http.Response response = await http.get(
+        Uri.parse(
+          'https://api.openweathermap.org/data/2.5/weather?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'
+        )
+    );
     print(response.body);
     Map data = jsonDecode(response.body);
-    /*WeatherData({this.date, this.name, this.temp, this.main, this.icon});
-  factory WeatherData.fromJson(Map<String, dynamic> json) {
-    return WeatherData(
-      date: new DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: false),
-      name: json['name'],
-      temp: json['main']['temp'].toDouble(),
-      main: json['weather'][0]['main'],
-      icon: json['weather'][0]['icon'],
-    );
-  }
-  */
 
-    time =
-        new DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000, isUtc: false)
-            .toString();
+    //Extract Data
+    time = new DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000, isUtc: false).toString();
     name = data['name'];
 
     temp = data['main']['temp'].toDouble();
@@ -62,16 +42,6 @@ class WeatherData {
     humidity = data['main']['humidity'].toInt();
     rise = data['sys']['sunrise'];
     set = data['sys']['sunset'];
-    print(feel);
-    print(name);
-    print(temp);
-    print(stat);
-    print('huehuehue');
-    print(rise);
-    print(set);
-    print(icon);
-    print(pressure);
-    print(humidity);
-    print(speed);
   }
 }
+
