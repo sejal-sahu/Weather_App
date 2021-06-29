@@ -12,12 +12,9 @@ class FData {
   FData({this.name});
 
   Future<void> getData() async {
-    http.Response response = await http.get(
-      Uri.parse(
-        'https://api.openweathermap.org/data/2.5/forecast?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'
-      )
-    );
-    print(response.body);
+    http.Response response = await http.get(Uri.parse(
+        'https://api.openweathermap.org/data/2.5/forecast?q=$name&appid=c2397a293bad6bf5af8760b6e4207dfb'));
+    // print(response.body);
     Map data = jsonDecode(response.body);
 
     name = data['name'];
