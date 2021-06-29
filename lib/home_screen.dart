@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   WeatherData weatherData = new WeatherData(name: "Delhi");
-  FData d = new FData(name: "Delhi");
+  FData forecastData = new FData(name: "Delhi");
   bool _loading = true;
   final _text = TextEditingController();
   var temperature;
@@ -55,48 +55,21 @@ class HomeState extends State<Home> {
       if (_text.text == '') return; //TODO Add more conditions
       _loading = true;
       weatherData.name = _text.text.toLowerCase();
-      d.name = _text.text.toLowerCase();
-      getDataa();
-    
+      forecastData.name = _text.text.toLowerCase();
+      getData();
       FocusScope.of(context).requestFocus(FocusNode());
     });
   }
 
-  String DateConvert(String date) {
+  String dateConvert(String date) {
     var time = DateTime.parse(date);
     var timezone = DateFormat('dd MMMM').format(time);
     return timezone;
   }
 
-  void getDataa() async {
-    await weatherData.getData().catchError((e){{ setState(() {
-          showDialog(context: context, builder:  (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Location not found"),
-          content: new Text("Please enter a valid city name."),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                 weatherData = new WeatherData(name: "Delhi");
-  d = new FData(name: "Delhi");
-                getDataa();
-               // initState();
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },);
-        });}
-     // print('error');
-    }) ;
-    
-    if(weatherData.cod == 404) {}
-   // else{
-    await d.getDataf();
+  void getData() async {
+    await weatherData.getData();
+    await forecastData.getData();
 
     var time = DateTime.parse(weatherData.time);
     timezone = DateFormat('EEE, dd MMMM HH:mm').format(time);
@@ -116,12 +89,12 @@ class HomeState extends State<Home> {
 
     setState(() {
       _loading = false;
-    });//}
+    });
   }
 
   void initState() {
     super.initState();
-    getDataa();
+    getData();
   }
 
   @override
@@ -448,160 +421,62 @@ class HomeState extends State<Home> {
                                               height:
                                                   constraints.maxWidth * 0.5,
                                               width: constraints.maxWidth * 0.9,
-                                              child: ListView(
-                                               
-                                                scrollDirection: Axis.horizontal,
-                                                children: [Center(
-                                                  child:   Row(
+                                              child: ListView.builder(
+                                                itemCount: 5,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemBuilder: (context, index) =>
+                                                    Center(
+                                                  child: Row(
                                                     children: [
-                                                      
-                                                  SizedBox(height: 50),
-                                                  SizedBox(
-                                                    height: 400,
-                                                    width: 100,
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                            '${DateConvert(d.date1)}',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Text(
-                                                            '${tempConvert(d.temp1).toString()}°C',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Image.network(
-                                                            'https://openweathermap.org/img/w/${d.icon1}.png'),
-                                                        Text(
-                                                            '${d.stat1.toString()}',
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              color:
-                                                                  Colors.white,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 200,
-                                                    width: 100,
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                            '${DateConvert(d.date2).toString()}',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Text(
-                                                            '${tempConvert(d.temp2).toString()}°C',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Image.network(
-                                                            'https://openweathermap.org/img/w/${d.icon2}.png'),
-                                                        Text(
-                                                            '${d.stat2.toString()}',
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              color:
-                                                                  Colors.white,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 200,
-                                                    width: 100,
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                            '${DateConvert(d.date3)}',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Text(
-                                                            '${tempConvert(d.temp3).toString()}°C',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Image.network(
-                                                            'https://openweathermap.org/img/w/${d.icon3}.png'),
-                                                        Text(
-                                                            '${d.stat3.toString()}',
-                                                            style: TextStyle(
+                                                      SizedBox(
+                                                        height: constraints
+                                                                .maxWidth *
+                                                            0.5,
+                                                        width: constraints
+                                                                .maxWidth *
+                                                            0.265,
+                                                        child: Column(
+                                                          children: [
+                                                            Text(
+                                                              '${dateConvert(forecastData.date[index])}',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      constraints
+                                                                              .maxWidth *
+                                                                          0.045,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                            Text(
+                                                              '${tempConvert(forecastData.temp[index]).toString()}°C',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      constraints
+                                                                              .maxWidth *
+                                                                          0.05,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                            Image.network(
+                                                                'https://openweathermap.org/img/w/${forecastData.icon[index]}.png'),
+                                                            Text(
+                                                              '${forecastData.stat[index].toString()}',
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    constraints
+                                                                            .maxWidth *
+                                                                        0.05,
                                                                 color: Colors
                                                                     .white,
-                                                                fontSize: 20)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 200,
-                                                    width: 100,
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                            '${DateConvert(d.date4)}',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Text(
-                                                            '${tempConvert(d.temp4).toString()}°C',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Image.network(
-                                                            'https://openweathermap.org/img/w/${d.icon4}.png'),
-                                                        Text(
-                                                            '${d.stat4.toString()}',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 20)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 200,
-                                                    width: 100,
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                            '${DateConvert(d.date5)}',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Text(
-                                                            '${tempConvert(d.temp5).toString()}°C',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .white)),
-                                                        Image.network(
-                                                            'https://openweathermap.org/img/w/${d.icon5}.png'),
-                                                        Text(
-                                                            '${d.stat5.toString()}',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 20)),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     ],
-                                                  ) ,
-                                                )]
-                                                    ,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -622,5 +497,3 @@ class HomeState extends State<Home> {
     });
   }
 }
-
-
